@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Monuments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/pages/style.css" rel="stylesheet" type="text/css" >
+    <link href="/partials/header.css" rel="stylesheet" type="text/css" >
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+    <script src="/pages/js.js"></script>
+</head>
+<body>
+    <% include ../partials/header.ejs %> 
+    <div id="backDrop" class="modalBackDrop drop" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopImmediatePropagation()">
+                <form method="POST" id="monument-edit-form" class="monument-edit-form" enctype="multipart/form-data" action="">
+                
+                    <input type="text" name="name" placeholder="Name" id="m-name" />
+                    <input type="text" name="location" placeholder="Location" id="m-location"/>
+                    <textarea  name="description" placeholder="Description" id="m-description" style="resize: none"></textarea>
+                    <input type="file" id="myFile" name="filetoupdate" />
+                    <div class="priceCopy">
+                            <input type="number" name="price" id="m-price" placeholder="Price"/>
+                            <input type="number" name="nbCopy" id="m-copy" placeholder="Copys"/>
+                    </div>
+                    <div class="edit-controls">
+                        <button class="drop" onclick="closeModal(event);event.preventDefault();">Cancel</button>
+                        <button>Edit</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="monument monument-add">
+            <span id="monument-plus" onclick="showMonumentAddForm()"><i class="fas fa-plus-circle"></i></span>
+            
+            <form method="POST" class="monument-form" enctype="multipart/form-data" action="/monuments">
+                
+                <input type="text" name="name" placeholder="Name" />
+                <input type="text" name="location" placeholder="Location"/>
+                <textarea  name="description" placeholder="Description" style="resize: none"></textarea>
+                <input type="file" id="myFile" name="filetoupload" />
+                <div class="priceCopy">
+                        <input type="number" name="price" placeholder="Price"/>
+                        <input type="number" name="nbCopy" placeholder="Copys"/>
+                </div>
+                <button>Add</button>
+            </form>
+        </div>
+        <% monuments.forEach(function(monument) { %>
+            <div class="monument">
+                    <img src=<%= "/" +  monument.img_path %> alt=""  />
+                    <div>
+                       <span>Name : <%= monument.name %></span>
+                    </div>
+                    <div>
+                       <span>Location : <%= monument.location %></span>
+                    </div>
+                    <div>
+                        <span>Description : <%= monument.description %></span>
+                    </div>
+                    <div class="price_copy">
+                        <span>Price : <%= monument.price %> $</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>Copys : <%= monument.copy_number %></span>
+                    </div>
+                    <span class="maj"><a href="" onclick="showModal(event)" id=<%= monument.id %>
+                            data-name=<%= monument.name %>
+                            data-description=<%= monument.description %>
+                            data-location=<%= monument.location %>
+                            data-img=<%= monument.img_path %>
+                            data-price=<%= monument.price %>
+                            data-copy=<%= monument.copy_number %>
+                        ><i class="fas fa-edit"></i></a></span>
+                    <span class="maj"><a href=<%= "/monuments/delete/" + monument.id %>><i class="fas fa-trash-alt"></i></a></span>
+                    
+            </div>
+        <% }); %>
+        
+    </div>
+</body>
+</html>

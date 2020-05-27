@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/pages/style.css" rel="stylesheet" type="text/css" >
+    <link href="/partials/header.css" rel="stylesheet" type="text/css" >
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" />
+    <script src="/pages/js.js"></script>
+</head>
+<body>
+    <% include ../partials/header.ejs %> 
+    <div class="container">
+        <div class="user add-form">
+            <form method="POST" enctype="multipart/form-data" action="/users">
+                <span id="bg-span" onclick="showFileDialog()">+</span>
+                <input type="file" id="myFile" name="filetoupload" onchange="setBgImage()"/>
+                <input type="text" name="name" placeholder="Name" />
+                <input type="email" name="email" placeholder="Email"/>
+                <input type="password" name="password" placeholder="Password" />
+                <button>Send</button>
+            </form>
+        </div>
+        <% users.forEach(function(user) { %>
+            <div class="user">
+                    <img src=<%= "/" +  user.img_path %> alt=""  />
+                    <div>
+                       <span ><%= user.name %></span>
+                    </div>
+                    <div>
+                       <span ><%= user.email %></span>
+                    </div>
+                    <div>
+                       <span >Contributions : <%= user.contributions %></span>
+                    </div>
+                    <span class="maj"><a href=<%= "/users/delete/" + user.id %>><i class="fas fa-trash-alt"></i></a></span>
+            </div>
+        <% }); %>
+    </div>
+</body>
+</html>
